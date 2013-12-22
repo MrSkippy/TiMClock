@@ -6,5 +6,11 @@
 #include "TiM.h"
 
 class TiMClock {
+	public:
+		TiMClock();
+		
+	private:
+	
+};
 
-}
+#endif

@@ -1,5 +1,5 @@
 #include "TiMClock.h"
-#include "WordMap.h"
+#include "Maps.h"
 
 TiMClock::TiMClock(){
 }
