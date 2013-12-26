@@ -46,14 +46,18 @@ void TiMClock::setWordPixels(uint8_t row, uint16_t pos, uint32_t color) {
 //    //currPos++;
   }  
 }
-void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second) {
+void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second, uint32_t color) {
 	ClockMap wordMap;
+	String sentence[10];
 	
+	_tim.setall(Color(0, 0, 0));
 	// het is
 	wordMap = getWord("w", 0); // het
-	setWordPixels(wordMap.row, wordMap.rowPos, Wheel(random(255), random(127,255)));
+	setWordPixels(wordMap.row, wordMap.rowPos, color);
+	sentence[0] = "Het";
 	wordMap = getWord("w", 1); // is
-	setWordPixels(wordMap.row, wordMap.rowPos, Wheel(random(255), random(127,255)));
+	setWordPixels(wordMap.row, wordMap.rowPos, color);
+	sentence[1] = "is";
 
 	// uur / vijf / tien / kwart / half
 	// 0  0000000111000000 uur   58->00->02
@@ -67,18 +71,21 @@ void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second) {
 		)
 	{
 		wordMap = getWord("m", 0); // uur
-		setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+		setWordPixels(wordMap.row, wordMap.rowPos, color);
+		sentence[7] = "uur";
 		// bijna 
 		if  (minute <= 59 && minute >= 58) 
 		{
 			wordMap = getWord("w", 2); // bijna
-			setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+			setWordPixels(wordMap.row, wordMap.rowPos, color);
+			sentence[2] = "bijna";
 		}
 		// geweest
 		if  (minute > 0 && minute <=  2) 
 		{
 			wordMap = getWord("w", 7); // geweest
-			setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+			setWordPixels(wordMap.row, wordMap.rowPos, color);
+			sentence[9] = "geweest";
 		}
 	} 
 	else if ( // vijf 03->07, 23->27, 33->37, 53->57
@@ -89,7 +96,8 @@ void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second) {
 		)
 	{
 		wordMap = getWord("m", 1); // vijf
-		setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+		setWordPixels(wordMap.row, wordMap.rowPos, color);
+		sentence[3] = "vijf";
 		// bijna 
 		if  ( 
 				(minute <  5 && minute >=  2) || 
@@ -99,7 +107,8 @@ void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second) {
 			)
 		{
 			wordMap = getWord("w", 2); // bijna
-			setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+			setWordPixels(wordMap.row, wordMap.rowPos, color);
+			sentence[2] = "bijna";
 		}
 		// geweest
 		if  (
@@ -110,7 +119,8 @@ void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second) {
 			)
 		{
 			wordMap = getWord("w", 7); // geweest
-			setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+			setWordPixels(wordMap.row, wordMap.rowPos, color);
+			sentence[9] = "geweest";
 		}
 	}
 	else if ( // tien 08->12, 18->22, 38->42, 48->52
@@ -121,17 +131,19 @@ void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second) {
 		)
 	{
 		wordMap = getWord("m", 2); // tien
-		setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+		setWordPixels(wordMap.row, wordMap.rowPos, color);
+		sentence[3] = "tien";
 		// bijna 
 		if  ( 
-				(minute < 10 && minute >=  8) || 
-				(minute < 20 && minute >= 18) ||
-				(minute < 40 && minute >= 38) ||
-				(minute < 50 && minute >= 48)
+				(minute < 10 && minute >=  7) || 
+				(minute < 20 && minute >= 17) ||
+				(minute < 40 && minute >= 37) ||
+				(minute < 50 && minute >= 47)
 			)
 		{
 			wordMap = getWord("w", 2); // bijna
-			setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+			setWordPixels(wordMap.row, wordMap.rowPos, color);
+			sentence[2] = "bijna";
 		}
 		// geweest
 		if  (
@@ -142,7 +154,8 @@ void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second) {
 			)
 		{
 			wordMap = getWord("w", 7); // geweest
-			setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+			setWordPixels(wordMap.row, wordMap.rowPos, color);
+			sentence[9] = "geweest";
 		}
 	}
 	else if ( // kwart 13->17, 43->47
@@ -151,15 +164,17 @@ void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second) {
 		)
 	{
 		wordMap = getWord("m", 3); // kwart
-		setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+		setWordPixels(wordMap.row, wordMap.rowPos, color);
+		sentence[3] = "kwart";
 		// bijna 
 		if  ( 
-				(minute < 15 && minute >= 13) || 
-				(minute < 45 && minute >= 43) 
+				(minute < 15 && minute >= 12) || 
+				(minute < 45 && minute >= 42) 
 			)
 		{
 			wordMap = getWord("w", 2); // bijna
-			setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+			setWordPixels(wordMap.row, wordMap.rowPos, color);
+			sentence[2] = "bijna";
 		}
 		// geweest
 		if  (
@@ -168,7 +183,8 @@ void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second) {
 			)
 		{
 			wordMap = getWord("w", 7); // geweest
-			setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+			setWordPixels(wordMap.row, wordMap.rowPos, color);
+			sentence[9] = "geweest";
 		}
 	}
 	if ( // half  18->42
@@ -176,18 +192,21 @@ void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second) {
 		)
 	{
 		wordMap = getWord("m", 4); // half
-		setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+		setWordPixels(wordMap.row, wordMap.rowPos, color);
+		sentence[5] = "half";
 		// bijna 
 		if 	(minute < 30 && minute >= 28) 
 		{
 			wordMap = getWord("w", 2); // bijna
-			setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+			setWordPixels(wordMap.row, wordMap.rowPos, color);
+			sentence[2] = "bijna";
 		}
 		// geweest
 		if  (minute > 30 && minute <= 32) 
 		{
 			wordMap = getWord("w", 7); // geweest
-			setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+			setWordPixels(wordMap.row, wordMap.rowPos, color);
+			sentence[9] = "geweest";
 		}
 	}
 	// over / voor
@@ -197,7 +216,8 @@ void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second) {
 		)
 	{
 		wordMap = getWord("w", 4); // over
-		setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+		setWordPixels(wordMap.row, wordMap.rowPos, color);
+		sentence[4] = "over";
 	}
 	else if ( // voor 18->27, 43->57
 			(((minute == 17 && second > 30) || minute > 17) && (minute < 27 || (minute == 27 && second <= 30))) ||
@@ -205,18 +225,21 @@ void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second) {
 		) 
 	{
 		wordMap = getWord("w", 3); // voor
-		setWordPixels(wordMap.row,wordMap.rowPos, Wheel(random(255), random(127,255)));
+		setWordPixels(wordMap.row, wordMap.rowPos, color);
+		sentence[4] = "voor";
 	}
 	// vm/nm
 	if (hour < 12)
 	{
 		wordMap = getWord("w", 5); // vm
-		setWordPixels(wordMap.row, wordMap.rowPos, Wheel(random(255), random(127,255)));
+		setWordPixels(wordMap.row, wordMap.rowPos, color);
+		sentence[8] = "vm";
 	}
 	else 
 	{
 		wordMap = getWord("w", 6); // nm
-		setWordPixels(wordMap.row, wordMap.rowPos, Wheel(random(255), random(127,255)));
+		setWordPixels(wordMap.row, wordMap.rowPos, color);
+		sentence[8] = "nm";
 	}
 	// uren
 	if (hour >= 12)
@@ -229,18 +252,25 @@ void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second) {
 		hour++;
 	}
 	wordMap = getWord("h", hour); // twaalf, een, twee, ..., elf
-	setWordPixels(wordMap.row, wordMap.rowPos, Wheel(random(255), random(127,255)));
+	setWordPixels(wordMap.row, wordMap.rowPos, color);
+	sentence[6] = String(hour);
+	int i;
+	for (i = 0; i < 10; i++) {
+		Serial.print(sentence[i]);
+		Serial.print(" ");
+	}
+	Serial.println();
 }
 void TiMClock::show() 
 {
-	int r, c, on;
-	for (r = 0; r < 8; r++) {
-		for (c = 0; c < 16; c++) {
-			on = _tim.getPixel(r,c);
-			Serial.print(on > 0);
-		}
-		Serial.println();
-	}
+//	int r, c, on;
+//	for (r = 0; r < 8; r++) {
+//		for (c = 0; c < 16; c++) {
+//			on = _tim.getPixel(r,c);
+//			Serial.print(on > 0);
+//		}
+//		Serial.println();
+//	}
 	Serial.println();
 	_tim.show();
 }
