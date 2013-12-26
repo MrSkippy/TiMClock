@@ -7,12 +7,6 @@ TODO
 
 #include <avr/pgmspace.h>
 
-struct ClockMap 
-{
-//	uint8_t id;
-	uint8_t row;
-	uint16_t rowPos;
-}; 
 // struct WordMap 
 // {
 // //	uint8_t id;
