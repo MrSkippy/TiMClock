@@ -68,6 +68,55 @@ void TiMClock::setWordPixels(uint8_t row, uint16_t pos, uint32_t color) {
 }
 void TiMClock::setTime(uint8_t hour, uint8_t minute, uint8_t second, uint32_t color) {
 	ClockMap wordMap;
+	ClockMap *wordMaps;
+	
+	_tim.setall(Color(0, 0, 0));
+	// het is
+	wordMap = getWord('w', 0); // het
+	setWordPixels(wordMap.row, wordMap.rowPos, color);
+	//sentence[0] = "Het";
+	wordMap = getWord('w', 1); // is
+	setWordPixels(wordMap.row, wordMap.rowPos, color);
+	//sentence[1] = "is";
+	
+	// vijf, tien, kwart, half, over, voor, geweest, bijna 
+	wordMaps = getTimes(minute);
+	uint8_t n = sizeof(wordMaps)/sizeof(wordMaps[0]);
+	for (uint8_t i = 0; i < n; i++) {
+		wordMap = wordMaps[i];
+		setWordPixels(wordMap.row, wordMap.rowPos, color);
+	}
+	
+	// vm/nm
+	if (hour < 12)
+	{
+		wordMap = getWord('w', 5); // vm
+		setWordPixels(wordMap.row, wordMap.rowPos, color);
+		//sentence[8] = "vm";
+	}
+	else 
+	{
+		wordMap = getWord('w', 6); // nm
+		setWordPixels(wordMap.row, wordMap.rowPos, color);
+		//sentence[8] = "nm";
+	}
+	// uren
+	if (hour >= 12)
+	{
+		hour = hour-12;
+	}
+	// minute>18 => uur+1 
+	if (minute >= 17)
+	{
+		hour++;
+	}
+	wordMap = getWord('h', hour); // twaalf, een, twee, ..., elf
+	setWordPixels(wordMap.row, wordMap.rowPos, color);
+	//sentence[6] = String(hour);
+
+}
+void TiMClock::setTime_old(uint8_t hour, uint8_t minute, uint8_t second, uint32_t color) {
+	ClockMap wordMap;
 	String sentence[10];
 	
 	_tim.setall(Color(0, 0, 0));
