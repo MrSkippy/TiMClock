@@ -31,7 +31,7 @@ struct Maps
 	ClockMap hours[12];
 	ClockMap minutes[5];
 };
-Maps clockMaps PROGMEM = {
+Maps const clockMaps PROGMEM = {
 	// words
 	{ 
 		{0,	0xe000}, // 0  1110000000000000 het
@@ -68,6 +68,30 @@ Maps clockMaps PROGMEM = {
 		{1, 0x0f80}, // 3  0000000011111000 kwart 13->17, 43->47
 		{2, 0x0078}  // 4  0000000001111000 half  18->42
 	}
+};
+
+ClockTime const clockTimes[21] PROGMEM = {
+	{ 0,  2, 'm', 0}, // uur
+	{ 3,  7, 'm', 1}, // vijf
+	{23, 27, 'm', 1}, // vijf
+	{33, 37, 'm', 1}, // vijf
+	{53, 57, 'm', 1}, // vijf
+	{ 8, 12, 'm', 2}, // tien
+	{18, 22, 'm', 2}, // tien
+	{38, 42, 'm', 2}, // tien
+	{48, 52, 'm', 2}, // tien
+	{13, 17, 'm', 3}, // kwart
+	{43, 57, 'm', 3}, // kwart
+	{18, 42, 'm', 4}, // half
+	{58, 59, 'm', 0}, // uur
+	{ 3, 17, 'w', 4}, // over
+	{33, 37, 'w', 4}, // over
+	{18, 27, 'w', 3}, // voor
+	{38, 57, 'w', 3}, // voor
+	{ 1,  2, 'w', 7}, // geweest
+	{31, 32, 'w', 7}, // geweest
+	{58, 59, 'w', 2}, // bijna
+	{28, 29, 'w', 2}  // bijna
 };
 
 #endif

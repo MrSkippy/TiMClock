@@ -2,7 +2,7 @@
 #define TIMCLOCK_H
 
 #include <Arduino.h>
-#include "Adafruit_NeoPixel.h"
+#include "Adafruit_NeoPixel_TiM.h"
 #include "TiM.h"
 
 struct ClockMap 
@@ -12,11 +12,20 @@ struct ClockMap
 	uint16_t rowPos;
 }; 
 
+struct ClockTime
+{
+	uint8_t from;
+	uint8_t to;
+	char type;
+	uint8_t pos;
+};
+
 class TiMClock {
 	public:
 		TiMClock();
 		void setup(TiM tim);
-		ClockMap getWord(char* type, uint8_t index);
+		ClockMap* getTimes(uint8_t minute);
+		ClockMap getWord(char type, uint8_t index);
 		void setWordPixels(uint8_t row, uint16_t pos, uint32_t color);
 		void setTime(uint8_t hour, uint8_t minute, uint8_t second, uint32_t color);
 		//char* timeString(uint8_t hour, uint8_t minute, uint8_t second);
